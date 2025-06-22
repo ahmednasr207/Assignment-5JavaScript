@@ -100,21 +100,18 @@ function setupCitySearch() {
             const searchUrl = `https://api.weatherapi.com/v1/search.json?key=4eaeb99cbf6043c1bd795521252006&q=${citySearchInput.value.trim()}`;
             const searchResponse = await fetch(searchUrl);
             const searchData = await searchResponse.json();
-            for (let i = 0; i < searchData.length; i++) {
-                if( searchData[i].name.trim().toLowerCase()===citySearchInput.value.trim().toLowerCase() ){
 
-fetchWeatherData(searchData[i].name);
+            if( searchData.length > 0 ) {
+var exactMatc =searchData.find(city=>city.name.trim().toLowerCase()===citySearchInput.value.trim().toLowerCase())
 
-                }else{
+if( exactMatc ) {
+fetchWeatherData(exactMatc.name);
 
+}else{
 fetchWeatherData(searchData[0].name);
 
-
-                }
-                
-            }
-        }
-    });
+}  }}
+});
 }
 
 setupCitySearch();
