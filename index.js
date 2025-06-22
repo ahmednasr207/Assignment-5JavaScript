@@ -96,12 +96,22 @@ navigator.geolocation.getCurrentPosition(async function(position) {
 
 function setupCitySearch() {
     citySearchInput.addEventListener("input", async function() {
-        if (citySearchInput.value.length > 2) {
-            const searchUrl = `https://api.weatherapi.com/v1/search.json?key=4eaeb99cbf6043c1bd795521252006&q=${citySearchInput.value}`;
+        if (citySearchInput.value.length >= 2) {
+            const searchUrl = `https://api.weatherapi.com/v1/search.json?key=4eaeb99cbf6043c1bd795521252006&q=${citySearchInput.value.trim()}`;
             const searchResponse = await fetch(searchUrl);
             const searchData = await searchResponse.json();
             for (let i = 0; i < searchData.length; i++) {
-                fetchWeatherData(searchData[i].country);
+                if( searchData[i].name.trim().toLowerCase()===citySearchInput.value.trim().toLowerCase() ){
+
+fetchWeatherData(searchData[i].name);
+
+                }else{
+
+fetchWeatherData(searchData[0].name);
+
+
+                }
+                
             }
         }
     });
